@@ -46,11 +46,8 @@ uv run pytest
 - [x] BOT workflow runs with `uv` and stores the latest 20 daily records in SQLite.
 - [x] Pytest suite passes.
 - [x] `AGENTS.md`, Python source, README, and HTML user guide are prepared.
-
-### Still to do before submission
-
-- [ ] Create and publish a **public GitHub repository** containing `AGENTS.md` (or `CLAUDE.md`), the Python source, README, and HTML user guide; save the repository URL.
-- [ ] Complete [NOTES.md](./NOTES.md), keeping it to one page: explain your understanding/implementation and list the AI tool and approximate time used.
-- [ ] Attach the generated SQLite file from `.venv/` to the submission email.
-- [ ] Include the public repository URL, AI tool and estimated time, and MBTI type in the email.
-- [ ] Before publishing, verify `.env` and all API credentials are excluded from the repository. Never commit credentials.
+- [x] Create and publish a **public GitHub repository** containing `AGENTS.md` (or `CLAUDE.md`), the Python source, README, and HTML user guide; save the repository URL.
+- [x] Complete [NOTES.md](./NOTES.md), keeping it to one page: explain your understanding/implementation and list the AI tool and approximate time used.
+- [x] Attach the generated SQLite file from `.venv/` to the submission email.
+- [x] Include the public repository URL, AI tool and estimated time, and MBTI type in the email.
+- [x] Before publishing, verify `.env` and all API credentials are excluded from the repository. Never commit credentials.
