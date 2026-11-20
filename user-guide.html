@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BOT Daily Exchange-Rate Workflow</title>
+  <style>
+    body { font: 1rem/1.6 system-ui, sans-serif; margin: 2rem auto; max-width: 52rem; padding: 0 1rem; }
+    code { background: #f1f3f5; padding: .12rem .3rem; }
+    .notice { border-left: .25rem solid #b7791f; padding: .5rem 1rem; background: #fffaf0; }
+  </style>
+</head>
+<body>
+  <h1>BOT Daily Exchange-Rate Workflow</h1>
+  <p>This project collects the Bank of Thailand's weighted-average interbank exchange rate for THB/USD and keeps up to 20 daily records in SQLite.</p>
+  <h2>Before the first run</h2>
+  <ol>
+    <li>Install Python 3.10+ and <code>uv</code>.</li>
+    <li>Run <code>uv sync</code> in the project folder.</li>
+    <li>Copy <code>.env.example</code> to <code>.env</code>.</li>
+    <li>Enter your applicant name in English and your own API credential from the <a href="https://portal.api.bot.or.th/portal/catalogue-products/exchange-rates-1">BOT Exchange Rates portal</a>.</li>
+    <li>Use the <code>Authorization</code> header shown in the request example and confirm the response field mappings in <code>.env</code> against your portal subscription.</li>
+  </ol>
+  <p class="notice"><strong>Keep credentials private.</strong> Never commit <code>.env</code> or API credentials to GitHub. No API data is bundled with this starter project.</p>
+  <h2>Collect data</h2>
+  <p>Run <code>uv run python bot_api_daily.py</code>. The script requests a 31-day window ending yesterday, stores at most the latest 20 returned dates, and creates the SQLite file under <code>.venv/</code>.</p>
+  <p>By default, the response mapping expects <code>result.data.data_detail</code> with <code>period</code> and <code>rate</code> fields. If the BOT response differs, set <code>BOT_RECORDS_PATH</code>, <code>BOT_DATE_FIELD</code>, and <code>BOT_RATE_FIELD</code> in <code>.env</code>. Dates must be ISO <code>YYYY-MM-DD</code>.</p>
+  <h2>Run tests</h2>
+  <p>Install the test extra with <code>uv sync --extra test</code>, then run <code>uv run pytest</code>. Tests use sample data and do not call the BOT API.</p>
+</body>
+</html>
