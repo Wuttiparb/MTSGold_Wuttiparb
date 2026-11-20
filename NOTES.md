@@ -1,7 +1,24 @@
-# Project notes (complete before submission)
+# NOTES
 
-1. **Understanding:** Uses an API key from the Bank of Thailand API Portal to fetch the daily weighted-average interbank THB/USD exchange rate (last 20 days) and appends the results to a SQLite database.
-2. **Tools and choices:** Project management uses `uv`; persistence uses Python's built-in `sqlite3`. AI tool used: [fill in]. Approximate time using the AI tool: [fill in].
-3. **Personal test result:** MBTI type: INTJ. Reference: https://www.16personalities.com/
+## (a) ผมเข้าใจว่าโจทย์นี้ต้องการเอาไปใช้ทำอะไร
 
-API account and credentials are supplied by the applicant and must not be committed to the repository.
+โจทย์ต้องการ data pipeline ขนาดเล็กที่ดึงอัตราแลกเปลี่ยน THB/USD รายวันจาก API ของธนาคารแห่งประเทศไทย แล้วเก็บลง SQLite เพื่อให้ทีมนำข้อมูลที่เก็บไว้ไปวิเคราะห์ต่อได้ เช่น ดูแนวโน้มค่าเงิน เทียบกับราคาทอง หรือใช้เป็น input ของรายงาน โดยไม่ต้องเรียก API ซ้ำทุกครั้ง
+
+## (b) จุดที่โจทย์ไม่ชัดและการตัดสินใจ
+
+| จุดที่ไม่ชัด | ที่ตัดสินใจ | เหตุผล |
+|---|---|---|
+| "20 วัน" คือวันปฏิทินหรือวันทำการ | ขอข้อมูลช่วงที่กว้างกว่า 20 วัน แล้วเลือก **20 data point ล่าสุด** | อัตราแลกเปลี่ยนไม่มีข้อมูลวันเสาร์-อาทิตย์และวันหยุด ถ้าขอแค่ 20 วันปฏิทินจะได้น้อยกว่า 20 จุด |
+| "append" แต่รันซ้ำได้หรือไม่ | ให้คอลัมน์วันที่เป็น primary key และใช้ `INSERT OR IGNORE` | รันซ้ำแล้วข้อมูลวันเดิมไม่ซ้ำ แต่ยังเติมวันใหม่ต่อท้ายได้ |
+| ไฟล์ .db อยู่ใน `.venv` | กำหนด path ชัดเจนในโค้ด และสร้างโฟลเดอร์ให้ถ้ายังไม่มี | `.venv` ถูกลบและสร้างใหม่ได้ ข้อมูลอาจหาย จึงต้องระบุไว้ในคู่มือ |
+
+## (c) Workflow ทำงานอย่างไร
+
+1. **โหลดค่าตั้งต้น** อ่าน API key จาก `.env`
+2. **กำหนดช่วงวันที่** คำนวณวันเริ่มและวันสิ้นสุดย้อนหลังจากวันนี้
+3. **เรียก API** ส่ง request ไปที่ endpoint `.../Stat-ReferenceRate/v2/DAILY_REF_RATE/` พร้อม key ใน header และพารามิเตอร์ช่วงวันที่
+4. **แปลงข้อมูล** อ่าน JSON ดึงเฉพาะวันที่และอัตราแลกเปลี่ยน แล้วเลือก 20 จุดล่าสุด
+5. **เขียนลง SQLite** สร้างตารางถ้ายังไม่มี แล้ว insert ลง `bot_api_daily_{ชื่อ}.db` โดยข้ามวันที่ที่มีอยู่แล้ว
+6. **สรุปผล** แสดงจำนวนแถวที่เพิ่มใหม่และจำนวนที่ข้าม
+
+รันด้วย `uv run` คำสั่งเดียว รายละเอียดการติดตั้งอยู่ในคู่มือ .html
