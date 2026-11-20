@@ -38,5 +38,3 @@ Values already exported in the shell environment take precedence over `.env`.
 uv sync --extra test
 uv run pytest
 ```
-e, and MBTI type in the email.
-- [x] Before publishing, verify `.env` and all API credentials are excluded from the repository. Never commit credentials.
