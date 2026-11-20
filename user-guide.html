@@ -26,6 +26,6 @@
   <p>Run <code>uv run python bot_api_daily.py</code>. The script requests a 31-day window ending yesterday, stores at most the latest 20 returned dates, and creates the SQLite file under <code>.venv/</code>.</p>
   <p>By default, the response mapping expects <code>result.data.data_detail</code> with <code>period</code> and <code>rate</code> fields. If the BOT response differs, set <code>BOT_RECORDS_PATH</code>, <code>BOT_DATE_FIELD</code>, and <code>BOT_RATE_FIELD</code> in <code>.env</code>. Dates must be ISO <code>YYYY-MM-DD</code>.</p>
   <h2>Run tests</h2>
-  <p>Install the test extra with <code>uv sync --extra test</code>, then run <code>uv run pytest</code>. Tests use sample data and do not call the BOT API.</p>
+  <p>Run <code>uv run --extra test python -m pytest</code>. Tests use sample data and do not call the BOT API.</p>
 </body>
 </html>
